@@ -165,22 +165,3 @@ free -h
 # Check CPU temp
 vcgencmd measure_temp
 ```
-
----
-
-## 💰 Budget
-
-| Item | Cost |
-|------|------|
-| 16GB DDR3L SODIMM | ~$16 |
-| Lenovo M720s (Proxmox) | $145 |
-| TL-SG108E switch | $24 |
-| Pi 5 8GB CanaKit kit | $209 |
-| SanDisk Extreme 64GB | $27 |
-| mSATA 120GB SSD | ~$18 (pending) |
-| Crucial MX500 1TB | ~$75 (pending) |
-| **Total** | **~$514** |
-
----
-
-*Built with patience, eBay hunting, and way too many SD card orientation attempts. 🍓*
