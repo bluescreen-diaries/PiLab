@@ -1,6 +1,6 @@
-# 🏠 Homelab Project — <user>@pilab
+# 🏠 Homelab Project — bluescreen-diaries
 
-> A three-machine home lab stack built for learning, monitoring, and virtualization.
+> A multi-machine home lab stack built for learning, monitoring, virtualization, and AI-assisted 3D mesh generation.
 
 ---
 
@@ -14,10 +14,9 @@ TP-Link Archer AXE7800 (Router)
     │
     ▼
 TP-Link TL-SG108E (8-port managed switch)
-    ├── 🍓 Raspberry Pi 5 8GB  →  pilab (<pi-ip>)
-    ├── 💻 ASUS Q550LF         →  file server (TBD)
-    ├── 🖥️  Lenovo ThinkCentre M720s  →  Proxmox (TBD)
-    └── 🖥️  Main PC
+    ├── 🍓 Raspberry Pi 5 8GB     →  pilab       (<pi-ip>)
+    ├── 💻 ASUS Q550LF            →  NAS/files   (TBD)
+    └── 🖥️  Lenovo ThinkCentre M720s →  Proxmox     (TBD)
 ```
 
 ---
@@ -34,15 +33,17 @@ TP-Link TL-SG108E (8-port managed switch)
 | User | <user> |
 | IP | <pi-ip> |
 | Role | Monitoring + Docker services |
+| Status | ✅ Live |
 
 ### 💻 ASUS Q550LF — File Server
 | Component | Spec |
 |-----------|------|
 | CPU | Intel i7-4500U (2C/4T) |
 | RAM | 16GB DDR3L 1600MHz (Transcend 2×8GB) |
-| OS Drive | 120GB mSATA SSD (pending) |
-| Storage | 1TB Crucial MX500 2.5" SATA (pending) |
-| Role | NAS / File Server (OpenMediaVault or Samba) |
+| OS Drive | 128GB mSATA SSD (bought) |
+| Storage | 2.5" SATA drive — SSD or HDD (pending) |
+| Role | NAS / File Server (OpenMediaVault) |
+| Status | 🔄 Hardware acquired, not yet assembled |
 
 ### 🖥️ Lenovo ThinkCentre M720s — Proxmox
 | Component | Spec |
@@ -52,26 +53,58 @@ TP-Link TL-SG108E (8-port managed switch)
 | Storage | 256GB SSD |
 | OS | Proxmox VE (replacing Win 11 Pro) |
 | VT-x / VT-d | ✅ / ✅ |
-| Role | VM Lab (AD, Wazuh, Kali, LXC containers) |
+| Role | VM Lab — Wazuh, osTicket, LXC containers |
+| Status | 🔄 Hardware acquired, power cable pending |
 
 ---
 
 ## 🐳 Docker Stack — pilab
 
 ### Running containers
-
 | Container | Port | Status |
 |-----------|------|--------|
 | Uptime Kuma | 3001 | ✅ running |
+| Pi-hole | 53, 80 | ✅ running |
+| Portainer | 9000 | ✅ running |
+| Glance | 8081 | ✅ running |
 
 ### Planned containers
-
 | Container | Port | Purpose |
 |-----------|------|---------|
-| Pi-hole | 80, 53 | Network-wide DNS + ad blocking |
 | Vaultwarden | 8080 | Self-hosted password manager |
 | Grafana | 3000 | Monitoring dashboards |
+| Hermes | 8025 | Notification / alerting server |
 | WireGuard VPN | 51820 | Remote access VPN |
+
+---
+
+## 🖥️ Dashboards
+
+| Tool | Purpose |
+|------|---------|
+| **Glance** | Homepage — bookmarks to all services in one place |
+| **Portainer** | Docker container management via web UI |
+| **Uptime Kuma** | Uptime/health monitoring for all devices and services |
+
+---
+
+## 🖥️ VM Stack — Lenovo M720s (Proxmox)
+
+| VM / Container | Type | Purpose |
+|----------------|------|---------|
+| Ubuntu Server | VM | General purpose Linux |
+| Wazuh | VM | SIEM — security monitoring |
+| osTicket | LXC | Helpdesk ticketing system |
+| Windows Server / AD | VM | Active Directory lab (future) |
+| pfSense | VM | Firewall (future phase) |
+
+### VLAN learning lab (virtual)
+Simulating VLANs inside Proxmox using virtual bridges before applying real VLAN configs to the physical TL-SG108E switch.
+
+- [ ] Create multiple virtual bridges (vmbr1, vmbr2, etc.)
+- [ ] Assign VMs to simulate VLAN 10 (homelab) / VLAN 20 (personal)
+- [ ] Practice inter-VLAN routing concepts
+- [ ] Apply learnings to physical switch (optional, future)
 
 ---
 
@@ -83,8 +116,9 @@ TP-Link TL-SG108E (8-port managed switch)
 - [x] TP-Link TL-SG108E 8-port switch — $24
 - [x] Raspberry Pi 5 8GB CanaKit Essentials — $209
 - [x] SanDisk Extreme 64GB microSD — $27
-- [ ] 120GB mSATA SSD — waiting for price drop
-- [ ] Crucial MX500 1TB 2.5" SATA — pending
+- [x] 128GB mSATA SSD (used, enterprise pull) — $21
+- [x] C13 power cable for M720s — $6
+- [ ] 2.5" SATA storage drive (SSD or HDD) — pending
 
 ### ✅ Phase 2 — Pi setup
 - [x] Flash Raspberry Pi OS 64-bit
@@ -94,24 +128,33 @@ TP-Link TL-SG108E (8-port managed switch)
 - [x] Docker installed
 - [x] Uptime Kuma deployed
 
-### ⬜ Phase 3 — Pi services
-- [ ] Pi-hole
+### ✅ Phase 3 — Pi services & dashboards
+- [x] Uptime Kuma
+- [x] Pi-hole — network-wide DNS ad blocking, router DNS pointed at Pi
+- [x] Portainer — Docker web management UI
+- [x] Glance — homepage dashboard
 - [ ] Vaultwarden
 - [ ] Grafana
+- [ ] Hermes
 - [ ] WireGuard VPN
 
 ### ⬜ Phase 4 — Proxmox setup
 - [ ] Install Proxmox VE on M720s
 - [ ] Configure networking
 - [ ] First VM (Ubuntu Server)
-- [ ] Active Directory DC
 - [ ] Wazuh SIEM
+- [ ] osTicket ticketing system
+- [ ] VLAN simulation lab (virtual bridges)
+- [ ] Active Directory DC (future)
+- [ ] pfSense firewall (future)
 
 ### ⬜ Phase 5 — NAS setup
+- [x] mSATA OS drive acquired
+- [ ] 2.5" SATA storage drive
 - [ ] Install drives in ASUS Q550LF
 - [ ] Install OpenMediaVault
 - [ ] Configure Samba shares
-- [ ] Mount shares on main PC
+- [ ] Mount shares on network
 
 ---
 
@@ -119,11 +162,13 @@ TP-Link TL-SG108E (8-port managed switch)
 
 | Device | IP | Notes |
 |--------|-----|-------|
-| Router | <router-ip> | TP-Link AXE7800 |
-| pilab (Pi 5) | <pi-ip> | Static IP recommended |
-| M720s (Proxmox) | TBD | |
+| Router | <router-ip> | TP-Link AXE7800, DNS → pilab |
+| pilab (Pi 5) | <pi-ip> | Primary DNS server for network |
+| Lenovo M720s | TBD | |
 | ASUS Q550LF | TBD | |
 
+> 🔒 **Gaming consoles (PS5/Xbox):** set DNS manually to 8.8.8.8 to bypass Pi-hole and avoid compatibility issues.
+>
 > ⚠️ **TODO:** Set static IPs for all homelab devices via router DHCP reservation
 
 ---
@@ -134,9 +179,20 @@ TP-Link TL-SG108E (8-port managed switch)
 # SSH into pilab
 ssh <user>@<pi-ip>
 
+# Glance dashboard (homepage)
+http://<pi-ip>:8081
+
 # Uptime Kuma dashboard
 http://<pi-ip>:3001
+
+# Pi-hole dashboard
+http://<pi-ip>/admin
+
+# Portainer dashboard
+http://<pi-ip>:9000
 ```
+
+> 🔑 Passwords are stored securely and not included in this repo.
 
 ---
 
@@ -147,14 +203,10 @@ http://<pi-ip>:3001
 docker ps
 
 # View container logs
-docker logs uptime-kuma
+docker logs <container_name>
 
 # Restart a container
-docker restart uptime-kuma
-
-# Update a container
-docker pull louislam/uptime-kuma:1
-docker restart uptime-kuma
+docker restart <container_name>
 
 # Check disk usage
 df -h
@@ -162,6 +214,51 @@ df -h
 # Check memory usage
 free -h
 
-# Check CPU temp
+# Check CPU temp (Pi only)
 vcgencmd measure_temp
+
+# Edit Glance dashboard config
+nano ~/glance/config.yml
+docker restart glance
 ```
+
+---
+
+## 💰 Budget
+
+| Item | Cost |
+|------|------|
+| 16GB DDR3L SODIMM | ~$16 |
+| Lenovo M720s (Proxmox) | $145 |
+| TL-SG108E switch | $24 |
+| Pi 5 8GB CanaKit kit | $209 |
+| SanDisk Extreme 64GB | $27 |
+| 128GB mSATA SSD (used) | $21 |
+| C13 power cable | $6 |
+| 2.5" SATA storage drive | pending |
+| **Total (so far)** | **~$448** |
+
+---
+
+## 📬 Secondary Project — Mail Server
+
+A self-hosted mail server for learning email protocols and infrastructure.
+
+### Goals
+- Understand SMTP, IMAP, POP3 protocols hands-on
+- Learn DNS mail records (MX, SPF, DKIM, DMARC)
+- Practice TLS/SSL certificate management
+- Understand email security and anti-spam measures
+
+### Planned stack
+| Tool | Purpose |
+|------|---------|
+| Mailcow | Full-featured mail server (Docker-based, web UI) |
+
+> ⚠️ Primarily a learning exercise — residential IPs are typically blacklisted by major providers. Internal lab use only.
+
+**Runs on:** Lenovo M720s (Proxmox VM)
+
+---
+
+*Built with patience, eBay hunting, way too many SD card orientation attempts, one Portainer token race against the clock, and an RTX 3060 Ti that's about to work overtime. 🍓💪*
