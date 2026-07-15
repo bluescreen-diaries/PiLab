@@ -261,3 +261,4 @@ A self-hosted mail server for learning email protocols and infrastructure.
 
 ---
 
+⚠️ This project was built collaboratively with Claude (Anthropic) as part of my IT portfolio. The architecture, logic, and learning are mine — Claude assisted with code structure and debugging.
