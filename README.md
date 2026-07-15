@@ -261,4 +261,3 @@ A self-hosted mail server for learning email protocols and infrastructure.
 
 ---
 
-*Built with patience, eBay hunting, way too many SD card orientation attempts, one Portainer token race against the clock, and an RTX 3060 Ti that's about to work overtime. 🍓💪*
